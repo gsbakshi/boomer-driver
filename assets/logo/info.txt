@@ -1,0 +1,14 @@
+
+Hope you enjoy your new logo, here are the people that
+made your beautiful logo happen :)
+font name: Viga-Regular
+font link: https://fonts.google.com/specimen/Viga
+font author: Fontstage
+font author site: http://www.fontstage.com/
+
+
+icon designer: Erika Jasso
+icon designer link: /kikajasso
+        
+{"bg":"#423833","icon":"#D1793F","font":"#ffffff","slogan":"#ffffff"}
+      
