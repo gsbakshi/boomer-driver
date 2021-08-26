@@ -114,6 +114,8 @@ class _AuthScreenState extends State<AuthScreen>
         errorMessage = 'Could not find a user with that email.';
       } else if (error.toString().contains('INVALID_PASSWORD')) {
         errorMessage = 'Invalid password.';
+      } else if (error.toString().contains('User does not exist')) {
+        errorMessage = 'User does not exist.';
       }
       _showErrorDialog(errorMessage);
     } catch (error) {

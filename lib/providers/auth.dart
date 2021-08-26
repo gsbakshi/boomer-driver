@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../helpers/http_exception.dart';
 import '../helpers/firebase_utils.dart';
 
 class Auth with ChangeNotifier {
@@ -94,6 +95,12 @@ class Auth with ChangeNotifier {
       );
       User? user = userCredential.user;
       if (user != null) {
+        final url = '${DBUrls.users}/${user.uid}.json';
+        final response = await http.get(Uri.parse(url));
+        final checkUser = json.decode(response.body);
+        if (checkUser == null) {
+          throw HttpException('User does not exist');
+        }
         IdTokenResult tokenRes = await user.getIdTokenResult();
         _userId = user.uid;
         _token = tokenRes.token;
