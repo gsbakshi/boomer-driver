@@ -55,19 +55,21 @@ class UserProvider with ChangeNotifier {
       _mobile = data['mobile'];
       final addressesData = data['addresses'];
       final List<Address> loadedAddresses = [];
-      addressesData.forEach((addressId, addressData) {
-        loadedAddresses.insert(
-          0,
-          Address(
-            id: addressId,
-            address: addressData['address'],
-            latitude: addressData['latitude'],
-            longitude: addressData['longitude'],
-            tag: addressData['tag'],
-            name: addressData['name'],
-          ),
-        );
-      });
+      if (addressesData != null) {
+        addressesData.forEach((addressId, addressData) {
+          loadedAddresses.insert(
+            0,
+            Address(
+              id: addressId,
+              address: addressData['address'],
+              latitude: addressData['latitude'],
+              longitude: addressData['longitude'],
+              tag: addressData['tag'],
+              name: addressData['name'],
+            ),
+          );
+        });
+      }
       _addresses = loadedAddresses;
       _user = User(
         id: userId,
