@@ -5,12 +5,16 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'providers/auth.dart';
 import 'providers/ride_provider.dart';
-import 'providers/driver_provider.dart';
 import 'providers/maps_provider.dart';
+import 'providers/driver_provider.dart';
 
 import 'screens/auth_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/splash_screen.dart';
+import 'screens/navigation_bar.dart';
+import 'screens/profile_screen.dart';
+import 'screens/ratings_screen.dart';
+import 'screens/earnings_screen.dart';
 import 'screens/car_info_screen.dart';
 
 Future<void> main() async {
@@ -47,7 +51,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: themeData,
           home: auth.isAuth
-              ? HomeScreen()
+              ? NavigationBar()
               : FutureBuilder(
                   future: auth.tryAutoLogin(),
                   builder: (ctx, snapshot) =>
@@ -65,8 +69,12 @@ class MyApp extends StatelessWidget {
     return {
       SplashScreen.routeName: (ctx) => SplashScreen(),
       AuthScreen.routeName: (ctx) => AuthScreen(),
-      HomeScreen.routeName: (ctx) => HomeScreen(),
       CarInfoScreen.routeName: (ctx) => CarInfoScreen(),
+      NavigationBar.routeName: (ctx) => NavigationBar(),
+      HomeScreen.routeName: (ctx) => HomeScreen(),
+      EarningsScreen.routeName: (ctx) => EarningsScreen(),
+      RatingsScreen.routeName: (ctx) => RatingsScreen(),
+      ProfileScreen.routeName: (ctx) => ProfileScreen(),
     };
   }
 }

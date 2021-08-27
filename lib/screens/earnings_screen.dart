@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
-  static const routeName = '/home-screen';
+class EarningsScreen extends StatelessWidget {
+  const EarningsScreen({Key? key}) : super(key: key);
+  static const routeName = '/earnings-screen';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: Container(
-          child: Text('Home Screen'),
+          child: Text('Earnings Screen'),
         ),
       ),
     );
