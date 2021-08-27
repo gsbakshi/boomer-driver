@@ -6,27 +6,25 @@ import 'package:http/http.dart' as http;
 import '../helpers/http_exception.dart';
 import '../helpers/firebase_utils.dart';
 
-import '../models/user.dart';
+import '../models/driver.dart';
 import '../models/address.dart';
 
 import 'auth.dart';
-import 'user_provider.dart';
+import 'driver_provider.dart';
 
 class RideProvider with ChangeNotifier {
-  void update(Auth auth, UserProvider userData) {
+  void update(Auth auth, DriverProvider driverData) {
     authToken = auth.token;
-    userId = auth.userId;
-    user = userData.user;
-    pickupLocation = userData.pickupLocation;
-    dropOffLocation = userData.dropOffLocation;
+    driverId = auth.driverId;
+    user = driverData.driver;
   }
 
   late String? authToken;
-  late String? userId;
+  late String? driverId;
 
   late String? rideId;
 
-  late User user;
+  late Driver user;
 
   late Address? pickupLocation;
   late Address? dropOffLocation;
