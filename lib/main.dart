@@ -5,12 +5,13 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'providers/auth.dart';
 import 'providers/ride_provider.dart';
-import 'providers/user_provider.dart';
+import 'providers/driver_provider.dart';
 import 'providers/maps_provider.dart';
 
 import 'screens/auth_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/splash_screen.dart';
+import 'screens/car_info_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,19 +31,19 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider.value(
           value: MapsProvider(),
         ),
-        ChangeNotifierProxyProvider<Auth, UserProvider>(
-          create: (_) => UserProvider(),
-          update: (_, auth, userData) => userData!..update(auth),
+        ChangeNotifierProxyProvider<Auth, DriverProvider>(
+          create: (_) => DriverProvider(),
+          update: (_, auth, driverData) => driverData!..update(auth),
         ),
-        ChangeNotifierProxyProvider2<Auth, UserProvider, RideProvider>(
+        ChangeNotifierProxyProvider2<Auth, DriverProvider, RideProvider>(
           create: (_) => RideProvider(),
-          update: (_, auth, userData, rideData) =>
-              rideData!..update(auth, userData),
+          update: (_, auth, driverData, rideData) =>
+              rideData!..update(auth, driverData),
         ),
       ],
       child: Consumer<Auth>(
         builder: (ctx, auth, _) => MaterialApp(
-          title: 'Boomer Rider App',
+          title: 'Boomer Driver App',
           debugShowCheckedModeBanner: false,
           theme: themeData,
           home: auth.isAuth
@@ -65,6 +66,7 @@ class MyApp extends StatelessWidget {
       SplashScreen.routeName: (ctx) => SplashScreen(),
       AuthScreen.routeName: (ctx) => AuthScreen(),
       HomeScreen.routeName: (ctx) => HomeScreen(),
+      CarInfoScreen.routeName: (ctx) => CarInfoScreen(),
     };
   }
 }

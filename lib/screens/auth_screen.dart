@@ -12,6 +12,8 @@ import '../widgets/tap_to_action.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_textfield.dart';
 
+import 'car_info_screen.dart';
+
 enum AuthMode { Signup, Login }
 
 class AuthScreen extends StatefulWidget {
@@ -83,12 +85,14 @@ class _AuthScreenState extends State<AuthScreen>
           password: _authData['password'] as String,
         );
       } else {
+        Navigator.of(context).pushNamed(CarInfoScreen.routeName);
         await Provider.of<Auth>(context, listen: false).signupWithEmail(
           email: (_authData['email'] as String).trim(),
           password: _authData['password'] as String,
           name: (_authData['name'] as String).trim(),
           mobile: (_authData['mobile'] as String).trim(),
         );
+
       }
     } on FirebaseAuthException catch (e) {
       var errorMessage = 'Firebase Authentication failed';
