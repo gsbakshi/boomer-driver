@@ -14,7 +14,7 @@ class Auth with ChangeNotifier {
 
   String? _token;
   DateTime? _expiryDate;
-  String? _userId;
+  String? _driverId;
   Timer? _authTimer;
 
   bool get isAuth {
@@ -30,9 +30,9 @@ class Auth with ChangeNotifier {
     return null;
   }
 
-  String? get userId {
+  String? get driverId {
     if (isAuth) {
-      return _userId;
+      return _driverId;
     }
     return null;
   }
@@ -52,12 +52,12 @@ class Auth with ChangeNotifier {
       User? user = userCredential.user;
       if (user != null) {
         IdTokenResult tokenRes = await user.getIdTokenResult();
-        _userId = user.uid;
+        _driverId = user.uid;
         _token = tokenRes.token;
         _expiryDate = tokenRes.expirationTime;
         _autoLogout();
         notifyListeners();
-        final url = '${DBUrls.users}/$_userId.json';
+        final url = '${DBUrls.drivers}/$_driverId.json';
         await http.put(
           Uri.parse(url),
           body: json.encode(
@@ -72,7 +72,7 @@ class Auth with ChangeNotifier {
         final userData = json.encode(
           {
             'token': _token,
-            'userId': _userId,
+            'userId': _driverId,
             'expiryDate': _expiryDate!.toIso8601String(),
           },
         );
@@ -95,14 +95,14 @@ class Auth with ChangeNotifier {
       );
       User? user = userCredential.user;
       if (user != null) {
-        final url = '${DBUrls.users}/${user.uid}.json';
+        final url = '${DBUrls.drivers}/${user.uid}.json';
         final response = await http.get(Uri.parse(url));
         final checkUser = json.decode(response.body);
         if (checkUser == null) {
           throw HttpException('User does not exist');
         }
         IdTokenResult tokenRes = await user.getIdTokenResult();
-        _userId = user.uid;
+        _driverId = user.uid;
         _token = tokenRes.token;
         _expiryDate = tokenRes.expirationTime;
         _autoLogout();
@@ -111,7 +111,7 @@ class Auth with ChangeNotifier {
         final userData = json.encode(
           {
             'token': _token,
-            'userId': _userId,
+            'userId': _driverId,
             'expiryDate': _expiryDate!.toIso8601String(),
           },
         );
@@ -134,7 +134,7 @@ class Auth with ChangeNotifier {
       return false;
     }
     _token = extractedData['token'] as String;
-    _userId = extractedData['userId'] as String;
+    _driverId = extractedData['userId'] as String;
     _expiryDate = expiryDate;
     notifyListeners();
     _autoLogout();
@@ -144,7 +144,7 @@ class Auth with ChangeNotifier {
   Future<void> logout() async {
     await _auth.signOut();
     _token = null;
-    _userId = null;
+    _driverId = null;
     _expiryDate = null;
     if (_authTimer != null) {
       _authTimer!.cancel();
