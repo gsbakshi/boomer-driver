@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/user_provider.dart';
+import '../providers/driver_provider.dart';
 
 import 'custom_button.dart';
 
@@ -64,48 +64,49 @@ class AddressListByType extends StatelessWidget {
           ),
           Expanded(
             child: SingleChildScrollView(
-              child: Consumer<UserProvider>(
+              child: Consumer<DriverProvider>(
+                //  TODO check usage
                 builder: (ctx, data, _) => Column(
-                  children: data.addressByType(label).map(
-                    (address) {
-                      final icon = getIcon();
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 12.0),
-                        child: ListTile(
-                          tileColor: Theme.of(context).primaryColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          onTap: () {
-                            Provider.of<UserProvider>(
-                              context,
-                              listen: false,
-                            ).updateDropOffLocationAddress(address);
-                            Navigator.of(context).pop('obtainDirection');
-                          },
-                          isThreeLine: true,
-                          leading: Icon(icon, color: color),
-                          title: Text(
-                            address.name!,
-                            style: TextStyle(
-                              color: color,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          subtitle: Text(
-                            address.address!,
-                            style: TextStyle(color: color),
-                          ),
-                          trailing: IconButton(
-                            icon: Icon(Icons.delete),
-                            color: color,
-                            onPressed: () => deleteAddress(address.id!),
-                          ),
-                        ),
-                      );
-                    },
-                  ).toList(),
-                ),
+                    //   children: data.addressByType(label).map(
+                    //     (address) {
+                    //       final icon = getIcon();
+                    //       return Padding(
+                    //         padding: const EdgeInsets.only(bottom: 12.0),
+                    //         child: ListTile(
+                    //           tileColor: Theme.of(context).primaryColor,
+                    //           shape: RoundedRectangleBorder(
+                    //             borderRadius: BorderRadius.circular(12),
+                    //           ),
+                    //           onTap: () {
+                    //             // Provider.of<DriverProvider>(
+                    //             //   context,
+                    //             //   listen: false,
+                    //             // ).updateDropOffLocationAddress(address);
+                    //             Navigator.of(context).pop('obtainDirection');
+                    //           },
+                    //           isThreeLine: true,
+                    //           leading: Icon(icon, color: color),
+                    //           title: Text(
+                    //             address.name!,
+                    //             style: TextStyle(
+                    //               color: color,
+                    //               fontWeight: FontWeight.w600,
+                    //             ),
+                    //           ),
+                    //           subtitle: Text(
+                    //             address.address!,
+                    //             style: TextStyle(color: color),
+                    //           ),
+                    //           trailing: IconButton(
+                    //             icon: Icon(Icons.delete),
+                    //             color: color,
+                    //             onPressed: () => deleteAddress(address.id!),
+                    //           ),
+                    //         ),
+                    //       );
+                    //     },
+                    //   ).toList(),
+                    ),
               ),
             ),
           ),
