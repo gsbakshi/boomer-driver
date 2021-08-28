@@ -63,21 +63,29 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> mapInit(bool value) async {
-    if (value) {
-      await Provider.of<MapsProvider>(
-        context,
-        listen: false,
-      ).goOnline();
-      _snackbar('You are now Online');
-    } else {
-      await Provider.of<MapsProvider>(
-        context,
-        listen: false,
-      ).goOffline();
-      _snackbar('You are now Offline');
+    try {
+      if (value) {
+        await Provider.of<MapsProvider>(
+          context,
+          listen: false,
+        ).goOnline();
+        await Provider.of<MapsProvider>(
+          context,
+          listen: false,
+        ).getLiveLocationUpdates(newMapController!);
+        _snackbar('You are now Online');
+      } else {
+        await Provider.of<MapsProvider>(
+          context,
+          listen: false,
+        ).goOffline();
+        _snackbar('You are now Offline');
+      }
+    } catch (error) {
+      const errorMessage = 'Was not able to get your current location.';
+      print(error);
+      _snackbar(errorMessage);
     }
-    Provider.of<MapsProvider>(context)
-        .getLiveLocationUpdates(newMapController!, value);
   }
 
   static final CameraPosition _kGooglePlex = CameraPosition(
@@ -88,14 +96,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero).then(
-      (_) {
-        Provider.of<DriverProvider>(
-          context,
-          listen: false,
-        ).fetchDriverDetails();
-      },
-    );
   }
 
   @override
@@ -152,6 +152,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         value: driver.status,
                         onChanged: (value) async {
                           final check = _init;
+
                           setState(() {
                             if (check) _init = false;
                             driver.changeWorkMode(value);

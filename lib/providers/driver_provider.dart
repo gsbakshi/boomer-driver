@@ -16,6 +16,7 @@ class DriverProvider with ChangeNotifier {
   void update(Auth auth) {
     authToken = auth.token;
     driverId = auth.driverId;
+    fetchDriverDetails();
     cars;
   }
 
@@ -135,7 +136,7 @@ class DriverProvider with ChangeNotifier {
     existingCar = null;
   }
 
-  Future<void> changeWorkMode(bool value) async {
+  void changeWorkMode(bool value) async {
     _status = value;
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('status', _status);

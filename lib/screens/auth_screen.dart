@@ -92,7 +92,6 @@ class _AuthScreenState extends State<AuthScreen>
           name: (_authData['name'] as String).trim(),
           mobile: (_authData['mobile'] as String).trim(),
         );
-
       }
     } on FirebaseAuthException catch (e) {
       var errorMessage = 'Firebase Authentication failed';
@@ -299,7 +298,9 @@ class _AuthScreenState extends State<AuthScreen>
                     CustomTextField(
                       label: 'Password',
                       obscure: _obscure,
-                      textInputAction: TextInputAction.next,
+                      textInputAction: _authMode == AuthMode.Signup
+                          ? TextInputAction.next
+                          : TextInputAction.done,
                       controller: _passwordController,
                       validator: (value) {
                         if (value!.isEmpty) {
