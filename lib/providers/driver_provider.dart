@@ -40,26 +40,9 @@ class DriverProvider with ChangeNotifier {
 
   Driver get driver => _driver;
 
-   bool _status = false;
+  bool _status = false;
 
   bool get status => _status;
-
-  Future<void> changeWorkMode(bool value) async {
-    _status = value;
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('status', _status);
-    notifyListeners();
-  }
-
-  Future<void> tryStatus() async {
-    final prefs = await SharedPreferences.getInstance();
-    if (!prefs.containsKey('status')) {
-      _status = true;
-    }
-    final extractedValue = prefs.getBool('status')!;
-    _status = extractedValue;
-    notifyListeners();
-  }
 
   Future<void> fetchDriverDetails() async {
     try {
@@ -150,5 +133,22 @@ class DriverProvider with ChangeNotifier {
       throw HttpException('Could not delete car.');
     }
     existingCar = null;
+  }
+
+  Future<void> changeWorkMode(bool value) async {
+    _status = value;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('status', _status);
+    notifyListeners();
+  }
+
+  Future<void> tryStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (!prefs.containsKey('status')) {
+      _status = true;
+    }
+    final extractedValue = prefs.getBool('status')!;
+    _status = extractedValue;
+    notifyListeners();
   }
 }

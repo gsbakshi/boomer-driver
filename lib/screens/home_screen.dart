@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../helpers/http_exception.dart';
@@ -26,7 +27,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   bool _init = true;
 
+  Position? currentPosition;
+
   void _snackbar(String message) {
+    ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
@@ -45,20 +49,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> locateOnMap() async {
     try {
       final mapProvider = Provider.of<MapsProvider>(context, listen: false);
-      await mapProvider.locatePosition(
-        newMapController!,
-        // _currentLocationInputController,
-      );
-      // final currentPosition = mapProvider.currentPosition;
-      // Address pickupAddress = Address(
-      //   longitude: currentPosition.longitude,
-      //   latitude: currentPosition.latitude,
-      //   address: _currentLocationInputController.text,
-      // );
-      // Provider.of<UserProvider>(
-      //   context,
-      //   listen: false,
-      // ).updatePickUpLocationAddress(pickupAddress);
+      await mapProvider.locatePosition(newMapController!);
+      currentPosition = mapProvider.currentPosition;
     } on HttpException catch (error) {
       var errorMessage = 'Request Failed';
       print(error);
@@ -68,6 +60,24 @@ class _HomeScreenState extends State<HomeScreen> {
       print(error);
       _snackbar(errorMessage);
     }
+  }
+
+  Future<void> mapInit(bool value) async {
+    if (value) {
+      await Provider.of<MapsProvider>(
+        context,
+        listen: false,
+      ).goOnline();
+      _snackbar('You are now Online');
+    } else {
+      await Provider.of<MapsProvider>(
+        context,
+        listen: false,
+      ).goOffline();
+      _snackbar('You are now Offline');
+    }
+    Provider.of<MapsProvider>(context)
+        .getLiveLocationUpdates(newMapController!, value);
   }
 
   static final CameraPosition _kGooglePlex = CameraPosition(
@@ -101,60 +111,60 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Consumer<DriverProvider>(
         builder: (ctx, driver, _) => FutureBuilder(
           future: driver.tryStatus(),
-          builder: (ctx, snapshot) =>  Stack(
+          builder: (ctx, snapshot) => Stack(
+            children: [
+              driver.status
+                  ? GoogleMap(
+                      myLocationEnabled: true,
+                      padding: EdgeInsets.all(12),
+                      initialCameraPosition: _kGooglePlex,
+                      onMapCreated: (GoogleMapController controller) async {
+                        if (_init) {
+                          _controller.complete(controller);
+                        }
+                        newMapController = controller;
+                        await locateOnMap();
+                      },
+                    )
+                  : Center(
+                      child: Icon(
+                        Icons.offline_bolt_rounded,
+                        size: query.width * 0.6,
+                        color: Theme.of(context).accentColor,
+                      ),
+                    ),
+              Positioned(
+                top: 0,
+                child: FloatingAppBarWrapper(
+                  height: query.height * 0.072,
+                  width: query.width,
                   children: [
-                    driver.status
-                        ? GoogleMap(
-                            myLocationEnabled: true,
-                            padding: EdgeInsets.all(12),
-                            initialCameraPosition: _kGooglePlex,
-                            onMapCreated:
-                                (GoogleMapController controller) async {
-                              if (_init) {
-                                _controller.complete(controller);
-                              }
-                              newMapController = controller;
-                              await locateOnMap();
-                            },
-                          )
-                        : Center(
-                            child: Icon(
-                              Icons.offline_bolt_rounded,
-                              size: query.width * 0.6,
-                              color: Theme.of(context).accentColor,
-                            ),
-                          ),
-                    Positioned(
-                      top: 0,
-                      child: FloatingAppBarWrapper(
-                        height: query.height * 0.072,
-                        width: query.width,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 20),
-                            child: Text(
-                              driver.status ? 'Online Now' : 'Offline',
-                              style: Theme.of(context).textTheme.headline4,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12),
-                            child: Switch.adaptive(
-                              value: driver.status,
-                              onChanged: (value) {
-                                final check = _init;
-                                setState(() {
-                                  if (check) _init = false;
-                                  driver.changeWorkMode(value);
-                                });
-                              },
-                            ),
-                          ),
-                        ],
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: Text(
+                        driver.status ? 'Online Now' : 'Offline',
+                        style: Theme.of(context).textTheme.headline4,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: Switch.adaptive(
+                        value: driver.status,
+                        onChanged: (value) async {
+                          final check = _init;
+                          setState(() {
+                            if (check) _init = false;
+                            driver.changeWorkMode(value);
+                          });
+                          await mapInit(value);
+                        },
                       ),
                     ),
                   ],
                 ),
+              ),
+            ],
+          ),
         ),
       ),
     );

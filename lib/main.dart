@@ -4,12 +4,12 @@ import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'providers/auth.dart';
-import 'providers/ride_provider.dart';
 import 'providers/maps_provider.dart';
 import 'providers/driver_provider.dart';
 
 import 'screens/auth_screen.dart';
 import 'screens/home_screen.dart';
+import 'screens/about_screen.dart';
 import 'screens/splash_screen.dart';
 import 'screens/navigation_bar.dart';
 import 'screens/profile_screen.dart';
@@ -32,17 +32,13 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider.value(
           value: Auth(),
         ),
-        ChangeNotifierProvider.value(
-          value: MapsProvider(),
+        ChangeNotifierProxyProvider<Auth, MapsProvider>(
+          create: (_) => MapsProvider(),
+          update: (_, auth, mapsData) => mapsData!..update(auth),
         ),
         ChangeNotifierProxyProvider<Auth, DriverProvider>(
           create: (_) => DriverProvider(),
           update: (_, auth, driverData) => driverData!..update(auth),
-        ),
-        ChangeNotifierProxyProvider2<Auth, DriverProvider, RideProvider>(
-          create: (_) => RideProvider(),
-          update: (_, auth, driverData, rideData) =>
-              rideData!..update(auth, driverData),
         ),
       ],
       child: Consumer<Auth>(
@@ -75,6 +71,7 @@ class MyApp extends StatelessWidget {
       EarningsScreen.routeName: (ctx) => EarningsScreen(),
       RatingsScreen.routeName: (ctx) => RatingsScreen(),
       ProfileScreen.routeName: (ctx) => ProfileScreen(),
+      AboutScreen.routeName: (ctx) => AboutScreen(),
     };
   }
 }

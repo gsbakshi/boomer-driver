@@ -111,8 +111,6 @@ class ProfileScreen extends StatelessWidget {
                   style: Theme.of(context).textTheme.bodyText2,
                 ),
                 onTap: () {
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pushReplacementNamed('/');
                   Provider.of<Auth>(context, listen: false).logout();
                 },
               ),

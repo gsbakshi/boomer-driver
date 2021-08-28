@@ -52,7 +52,7 @@ class _NavigationBarState extends State<NavigationBar>
     return Scaffold(
       body: PageView(
         controller: _pageController,
-        physics: BouncingScrollPhysics(),
+        physics: NeverScrollableScrollPhysics(),
         onPageChanged: (int index) => onItemClicked(index),
         children: _pages.map((page) => page).toList(),
       ),
