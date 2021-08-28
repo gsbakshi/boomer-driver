@@ -94,6 +94,7 @@ class MapsProvider with ChangeNotifier {
   }
 
   void getLiveLocationUpdates(GoogleMapController mapController, bool status) {
+    // ignore: cancel_subscriptions, unused_local_variable
     StreamSubscription<Position> liveLocationStream;
     liveLocationStream = Geolocator.getPositionStream().listen(
       (Position position) {

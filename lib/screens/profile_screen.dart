@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import '../providers/auth.dart';
 import '../providers/driver_provider.dart';
 
+import 'about_screen.dart';
+
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
   static const routeName = '/profile-screen';
@@ -92,8 +94,8 @@ class ProfileScreen extends StatelessWidget {
                   style: Theme.of(context).textTheme.bodyText2,
                 ),
                 onTap: () {
-                  // Navigator.of(context)
-                  //     .pushReplacementNamed(AboutScreen.routeName);
+                  Navigator.of(context)
+                      .pushReplacementNamed(AboutScreen.routeName);
                 },
               ),
               Divider(color: Color(0xff6D5D54)),
