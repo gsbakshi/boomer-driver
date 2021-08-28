@@ -9,6 +9,9 @@ PODS:
     - FirebaseAnalytics (~> 8.5.0)
   - Firebase/CoreOnly (8.5.0):
     - FirebaseCore (= 8.5.0)
+  - Firebase/Database (8.5.0):
+    - Firebase/CoreOnly
+    - FirebaseDatabase (~> 8.5.0)
   - firebase_auth (3.0.2):
     - Firebase/Auth (= 8.5.0)
     - firebase_core
@@ -48,14 +51,26 @@ PODS:
     - GoogleUtilities/Environment (~> 7.4)
     - GoogleUtilities/Logger (~> 7.4)
     - nanopb (~> 2.30908.0)
+  - FirebaseDatabase (8.5.0):
+    - FirebaseCore (~> 8.0)
+    - leveldb-library (~> 1.22)
   - FirebaseInstallations (8.5.0):
     - FirebaseCore (~> 8.0)
     - GoogleUtilities/Environment (~> 7.4)
     - GoogleUtilities/UserDefaults (~> 7.4)
     - PromisesObjC (< 3.0, >= 1.2)
   - Flutter (1.0.0)
+  - flutter_geofire (0.0.1):
+    - Flutter
+    - GeoFire (~> 4.0)
   - geocoding (1.0.5):
     - Flutter
+  - GeoFire (4.3.0):
+    - GeoFire/Database (= 4.3.0)
+  - GeoFire/Database (4.3.0):
+    - Firebase/Database (< 9.0.0, > 7.0.0)
+    - GeoFire/Utils
+  - GeoFire/Utils (4.3.0)
   - geolocator_apple (1.0.0):
     - Flutter
   - google_maps_flutter (0.0.1):
@@ -103,6 +118,7 @@ PODS:
   - GoogleUtilities/UserDefaults (7.5.0):
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (1.6.1)
+  - leveldb-library (1.22.1)
   - nanopb (2.30908.0):
     - nanopb/decode (= 2.30908.0)
     - nanopb/encode (= 2.30908.0)
@@ -117,6 +133,7 @@ DEPENDENCIES:
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - Flutter (from `Flutter`)
+  - flutter_geofire (from `.symlinks/plugins/flutter_geofire/ios`)
   - geocoding (from `.symlinks/plugins/geocoding/ios`)
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
   - google_maps_flutter (from `.symlinks/plugins/google_maps_flutter/ios`)
@@ -130,12 +147,15 @@ SPEC REPOS:
     - FirebaseAuth
     - FirebaseCore
     - FirebaseCoreDiagnostics
+    - FirebaseDatabase
     - FirebaseInstallations
+    - GeoFire
     - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleMaps
     - GoogleUtilities
     - GTMSessionFetcher
+    - leveldb-library
     - nanopb
     - PromisesObjC
 
@@ -146,6 +166,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_core/ios"
   Flutter:
     :path: Flutter
+  flutter_geofire:
+    :path: ".symlinks/plugins/flutter_geofire/ios"
   geocoding:
     :path: ".symlinks/plugins/geocoding/ios"
   geolocator_apple:
@@ -163,9 +185,12 @@ SPEC CHECKSUMS:
   FirebaseAuth: b152ea261b60eeb9419ae7e5bf34761382b33277
   FirebaseCore: 1c1ca72483b59b17050f5b4cec4fb748425a3901
   FirebaseCoreDiagnostics: 7bf55d386f9fc690d971b70a582142321a390eb8
+  FirebaseDatabase: 65c3742ed355f9b9db222036fd154e699ab7d672
   FirebaseInstallations: f2bc590b291d25fb40a9a05b8281c02a881b5117
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
+  flutter_geofire: 1fcdd7f26157b6fbc99bdf4bb41b957bef9e33d5
   geocoding: 32cfcdb16d38d907caaba65e2e42ad10d38bee58
+  GeoFire: c34927b5c81ab614f611c79aa8d074cfa9780f07
   geolocator_apple: 60a1c3f5930c090d2f5164ba8bf25f4f89121e3c
   google_maps_flutter: df4e7de95264aa0a2f11aac0fc7e313acb8ffc7e
   GoogleAppMeasurement: 8d10c1c470fcb0e5143ed74fddd164f0a0384800
@@ -173,6 +198,7 @@ SPEC CHECKSUMS:
   GoogleMaps: 086ae1dab659eaa7339bdb30fc88e2f44e7c597c
   GoogleUtilities: eea970f4a389963963bffe8d8fabe43540678b9c
   GTMSessionFetcher: 36689134877faeb055b27dfa4ccc9ceaa42e029e
+  leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
