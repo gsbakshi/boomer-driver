@@ -4,9 +4,9 @@ import 'package:flutter/gestures.dart';
 class TapToActionText extends StatelessWidget {
   const TapToActionText({
     Key? key,
-    required this.label,
-    required this.tapLabel,
-    required this.onTap,
+    this.label,
+    this.tapLabel,
+    this.onTap,
     this.padding = const EdgeInsets.only(top: 20),
   }) : super(key: key);
 

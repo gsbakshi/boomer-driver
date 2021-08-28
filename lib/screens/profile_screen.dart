@@ -95,7 +95,7 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 onTap: () {
                   Navigator.of(context)
-                      .pushReplacementNamed(AboutScreen.routeName);
+                      .pushNamed(AboutScreen.routeName);
                 },
               ),
               Divider(color: Color(0xff6D5D54)),
