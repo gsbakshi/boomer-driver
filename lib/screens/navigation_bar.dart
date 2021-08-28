@@ -78,7 +78,7 @@ class _NavigationBarState extends State<NavigationBar>
         unselectedItemColor:
             Theme.of(context).primaryColorLight.withOpacity(0.5),
         selectedItemColor: Theme.of(context).accentColor,
-        type: BottomNavigationBarType.shifting,
+        type: BottomNavigationBarType.fixed,
         showUnselectedLabels: true,
         currentIndex: selectedIndex,
         onTap: (int index) => onItemClicked(index),
