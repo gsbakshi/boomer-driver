@@ -8,7 +8,10 @@ class EarningsScreen extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Container(
-          child: Text('Earnings Screen'),
+          child: Text(
+            'Earnings Screen',
+            style: Theme.of(context).textTheme.headline3,
+          ),
         ),
       ),
     );

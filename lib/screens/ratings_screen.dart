@@ -8,7 +8,10 @@ class RatingsScreen extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Container(
-          child: Text('Ratings Screen'),
+          child: Text(
+            'Ratings Screen',
+            style: Theme.of(context).textTheme.headline3,
+          ),
         ),
       ),
     );
