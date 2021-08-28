@@ -38,4 +38,4 @@ An Uber-like application for Drivers made using Flutter.
 
 
 
-*** :bang::bang: This application is only for showcasing purposes. ***
+* This application is only for showcasing purposes. *
