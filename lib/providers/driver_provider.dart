@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../helpers/firebase_utils.dart';
 import '../helpers/http_exception.dart';
@@ -38,6 +39,27 @@ class DriverProvider with ChangeNotifier {
   late Driver _driver;
 
   Driver get driver => _driver;
+
+   bool _status = false;
+
+  bool get status => _status;
+
+  Future<void> changeWorkMode(bool value) async {
+    _status = value;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('status', _status);
+    notifyListeners();
+  }
+
+  Future<void> tryStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (!prefs.containsKey('status')) {
+      _status = true;
+    }
+    final extractedValue = prefs.getBool('status')!;
+    _status = extractedValue;
+    notifyListeners();
+  }
 
   Future<void> fetchDriverDetails() async {
     try {
