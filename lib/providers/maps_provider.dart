@@ -80,12 +80,12 @@ class MapsProvider with ChangeNotifier {
 
   Future<void> locatePosition(
     GoogleMapController mapController,
-    TextEditingController textController,
+    // TextEditingController textController,
   ) async {
     try {
       await _getMapPosition(mapController);
-      String address = await _reverseGeocode(_currentPosition);
-      textController.text = address;
+      // String address = await _reverseGeocode(_currentPosition);
+      // textController.text = address;
     } catch (error) {
       rethrow;
     }
