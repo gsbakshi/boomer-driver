@@ -19,23 +19,23 @@ An Uber-like application for Drivers made using Flutter.
 
 ### Features
 
-- [x] Driver is able to register in the system;
-- [x] Driver is able to login into the system;
-- [x] Driver is able to view his profile info;
-- [x] Driver is able to add cars;
-- [x] Driver is able to go online/offline depending on their availability;
-- [x] Driver is get go online/offline depending on their availability;
-- [x] Driver sends a stream of current location updates when online to find new nearby ride requests;
-- [x] Driver is able to logout;
+- [x] Driver is able to register in the system
+- [x] Driver is able to login into the system
+- [x] Driver is able to view his profile info
+- [x] Driver is able to add cars
+- [x] Driver is able to go online/offline depending on their availability
+- [x] Driver is get go online/offline depending on their availability
+- [x] Driver sends a stream of current location updates when online to find new nearby ride requests
+- [x] Driver is able to logout
 
 ### Issues
 
-- [x] Driver is not able to view all the cars;
-- [x] Driver is not able to edit their details;
-- [x] Driver is not able to delete their account;
+- [x] Driver is not able to view all the cars
+- [x] Driver is not able to edit their details
+- [x] Driver is not able to delete their account
 
 ``` The issues have not been resovled due to laziness and non-requirement. ```
 
 
 
-**This application is only for showcasing purposes.**
+***This application is only for showcasing purposes.***
