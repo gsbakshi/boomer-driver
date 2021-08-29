@@ -63,8 +63,6 @@ PODS:
   - flutter_geofire (0.0.1):
     - Flutter
     - GeoFire (~> 4.0)
-  - geocoding (1.0.5):
-    - Flutter
   - GeoFire (4.3.0):
     - GeoFire/Database (= 4.3.0)
   - GeoFire/Database (4.3.0):
@@ -134,7 +132,6 @@ DEPENDENCIES:
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - Flutter (from `Flutter`)
   - flutter_geofire (from `.symlinks/plugins/flutter_geofire/ios`)
-  - geocoding (from `.symlinks/plugins/geocoding/ios`)
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
   - google_maps_flutter (from `.symlinks/plugins/google_maps_flutter/ios`)
   - GoogleMaps
@@ -168,8 +165,6 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_geofire:
     :path: ".symlinks/plugins/flutter_geofire/ios"
-  geocoding:
-    :path: ".symlinks/plugins/geocoding/ios"
   geolocator_apple:
     :path: ".symlinks/plugins/geolocator_apple/ios"
   google_maps_flutter:
@@ -189,7 +184,6 @@ SPEC CHECKSUMS:
   FirebaseInstallations: f2bc590b291d25fb40a9a05b8281c02a881b5117
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
   flutter_geofire: 1fcdd7f26157b6fbc99bdf4bb41b957bef9e33d5
-  geocoding: 32cfcdb16d38d907caaba65e2e42ad10d38bee58
   GeoFire: c34927b5c81ab614f611c79aa8d074cfa9780f07
   geolocator_apple: 60a1c3f5930c090d2f5164ba8bf25f4f89121e3c
   google_maps_flutter: df4e7de95264aa0a2f11aac0fc7e313acb8ffc7e
