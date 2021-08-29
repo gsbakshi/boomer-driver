@@ -40,4 +40,4 @@ View [screenshots](https://github.com/gsbakshi/boomer-driver/tree/main/screensho
 
 
 
-***This application is only for showcasing purposes.***
+*This application is only for showcasing purposes.*
