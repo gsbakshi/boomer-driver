@@ -88,17 +88,6 @@ class AboutScreen extends StatelessWidget {
                 color: Color(0xff6D5D54),
               ),
               title: Text(
-                'Google Maps Flutter',
-                style: Theme.of(context).textTheme.bodyText2,
-              ),
-            ),
-            Divider(color: Color(0xff6D5D54)),
-            ListTile(
-              leading: Icon(
-                Icons.circle,
-                color: Color(0xff6D5D54),
-              ),
-              title: Text(
                 'Geolocator',
                 style: Theme.of(context).textTheme.bodyText2,
               ),
@@ -126,17 +115,16 @@ class AboutScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: ListTile(
-                tileColor: Theme.of(context).primaryColorDark.withOpacity(0.6),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                title: Text(
-                  'This application is only for showcasing purposes.',
-                  style: Theme.of(context).textTheme.bodyText2,
-                ),
+            Container(
+              margin: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColorDark.withOpacity(0.6),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Text(
+                'This application is only for showcasing purposes.',
+                style: Theme.of(context).textTheme.bodyText2,
               ),
             ),
             SizedBox(height: 20),

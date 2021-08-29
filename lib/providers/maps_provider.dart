@@ -61,7 +61,7 @@ class MapsProvider with ChangeNotifier {
         desiredAccuracy: LocationAccuracy.high,
       );
       _currentPosition = position;
-      await Geofire.initialize('available-drivers');
+      await Geofire.initialize('boomer/available-drivers');
       await Geofire.setLocation(
         driverId!,
         currentPosition.latitude,
