@@ -5,6 +5,8 @@ An Uber-like application for Drivers made using Flutter.
 
 `Supports both iOS and Android.`
 
+View [screenshots](https://github.com/gsbakshi/boomer-driver/tree/main/screenshots)
+
 ## Table of contents
 
 1. [External Services that app uses](#external-services-that-app-uses)
