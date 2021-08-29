@@ -143,6 +143,7 @@ class Auth with ChangeNotifier {
   }
 
   Future<void> logout() async {
+    await Geofire.removeLocation(driverId!);
     await _auth.signOut();
     _token = null;
     _driverId = null;
@@ -152,7 +153,6 @@ class Auth with ChangeNotifier {
       _authTimer = null;
     }
     notifyListeners();
-    await Geofire.removeLocation(driverId!);
     final prefs = await SharedPreferences.getInstance();
     prefs.remove('userData');
     prefs.remove('status');
