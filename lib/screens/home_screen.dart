@@ -63,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         future: maps.checkPermissions(),
                         builder: (ctx, snapshot) => maps.isPermissionsInit
                             ? CircularProgressIndicator(
-                            color: Theme.of(context).accentColor,
+                                color: Theme.of(context).accentColor,
                               )
                             : GoogleMap(
                                 myLocationEnabled: true,
@@ -110,7 +110,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           value: driver.status,
                           onChanged: (value) async {
                             driver.changeWorkMode(value);
-                            await maps.mapInit();
+                            value
+                                ? await maps.goOnline()
+                                : await maps.goOffline();
                           },
                         ),
                       ),
