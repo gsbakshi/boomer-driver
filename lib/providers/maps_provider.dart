@@ -125,7 +125,12 @@ class MapsProvider with ChangeNotifier {
         if (status)
           Geofire.setLocation(driverId!, position.latitude, position.longitude);
         LatLng latLng = LatLng(position.latitude, position.longitude);
-        _newMapController.animateCamera(CameraUpdate.newLatLng(latLng));
+        CameraPosition cameraPosition = new CameraPosition(
+          target: latLng,
+          zoom: 14,
+        );
+        _newMapController
+            .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
       },
     );
     notifyListeners();
