@@ -37,11 +37,11 @@ class DriverProvider with ChangeNotifier {
     return [..._cars];
   }
 
-  late Driver _driver;
+  Driver _driver = Driver();
 
   Driver get driver => _driver;
 
-  bool _status = false;
+  bool _status = true;
 
   bool get status => _status;
 
@@ -137,18 +137,18 @@ class DriverProvider with ChangeNotifier {
   }
 
   void changeWorkMode(bool value) async {
-    _status = value;
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('status', _status);
+    _status = value;
+    await prefs.setBool('$driverId-status', _status);
     notifyListeners();
   }
 
   Future<void> tryStatus() async {
     final prefs = await SharedPreferences.getInstance();
-    if (!prefs.containsKey('status')) {
+    if (!prefs.containsKey('$driverId-status')) {
       _status = true;
     }
-    final extractedValue = prefs.getBool('status')!;
+    final extractedValue = prefs.getBool('$driverId-status')!;
     _status = extractedValue;
     notifyListeners();
   }

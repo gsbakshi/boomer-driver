@@ -73,11 +73,13 @@ class MapsProvider with ChangeNotifier {
     }
   }
 
-  Future<void> getLiveLocationUpdates(GoogleMapController mapController) async{
+  Future<void> getLiveLocationUpdates(
+      GoogleMapController mapController, bool value) async {
     liveLocationStream = Geolocator.getPositionStream().listen(
       (Position position) {
         _currentPosition = position;
-        Geofire.setLocation(driverId!, position.latitude, position.longitude);
+        if (value)
+          Geofire.setLocation(driverId!, position.latitude, position.longitude);
         LatLng latLng = LatLng(position.latitude, position.longitude);
         mapController.animateCamera(CameraUpdate.newLatLng(latLng));
       },

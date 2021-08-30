@@ -4,7 +4,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_geofire/flutter_geofire.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../helpers/http_exception.dart';
@@ -143,7 +142,6 @@ class Auth with ChangeNotifier {
   }
 
   Future<void> logout() async {
-    await Geofire.removeLocation(driverId!);
     await _auth.signOut();
     _token = null;
     _driverId = null;
@@ -155,7 +153,7 @@ class Auth with ChangeNotifier {
     notifyListeners();
     final prefs = await SharedPreferences.getInstance();
     prefs.remove('userData');
-    prefs.remove('status');
+    prefs.remove('$driverId-status');
   }
 
   void _autoLogout() {

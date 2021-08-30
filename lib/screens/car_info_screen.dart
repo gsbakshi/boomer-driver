@@ -56,7 +56,6 @@ class _CarInfoScreenState extends State<CarInfoScreen> {
       _isLoading = true;
     });
     try {
-      Navigator.of(context).pushReplacementNamed('/');
       await Provider.of<DriverProvider>(
         context,
         listen: false,
@@ -66,6 +65,7 @@ class _CarInfoScreenState extends State<CarInfoScreen> {
         carNumber: (_carInfoData['carNumber'] as String).trim(),
         carColor: (_carInfoData['carColor'] as String).trim(),
       );
+      Navigator.of(context).pop();
     } on HttpException catch (error) {
       var errorMessage = 'Request failed';
       if (error.toString().contains('NETWORK_ERROR')) {
