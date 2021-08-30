@@ -20,8 +20,7 @@ class MapsProvider with ChangeNotifier {
 
   Position get currentPosition => _currentPosition;
 
-  // ignore: cancel_subscriptions, unused_local_variable
-  StreamSubscription<Position>? liveLocationStream;
+  late StreamSubscription<Position> liveLocationStream;
 
   Future<void> locatePosition(GoogleMapController mapController) async {
     try {
@@ -49,6 +48,7 @@ class MapsProvider with ChangeNotifier {
   Future<void> goOffline() async {
     try {
       await Geofire.removeLocation(driverId!);
+      liveLocationStream.cancel();
     } catch (error) {
       print(error);
       throw error;
@@ -74,11 +74,10 @@ class MapsProvider with ChangeNotifier {
   }
 
   Future<void> getLiveLocationUpdates(
-      GoogleMapController mapController, bool value) async {
+      GoogleMapController mapController) async {
     liveLocationStream = Geolocator.getPositionStream().listen(
       (Position position) {
         _currentPosition = position;
-        if (value)
           Geofire.setLocation(driverId!, position.latitude, position.longitude);
         LatLng latLng = LatLng(position.latitude, position.longitude);
         mapController.animateCamera(CameraUpdate.newLatLng(latLng));
