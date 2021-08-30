@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/auth.dart';
+import '../providers/maps_provider.dart';
 import '../providers/driver_provider.dart';
 
 import 'about_screen.dart';
+import 'all_cars_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -55,11 +57,28 @@ class ProfileScreen extends StatelessWidget {
                   color: Color(0xff6D5D54),
                 ),
                 title: Text(
+                  'View Cars',
+                  style: Theme.of(context).textTheme.bodyText2,
+                ),
+                onTap: () {
+                  Navigator.of(context).pushNamed(AllCarsScreen.routeName);
+                },
+              ),
+              Divider(color: Color(0xff6D5D54)),
+              ListTile(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                leading: Icon(
+                  Icons.money,
+                  color: Color(0xff6D5D54),
+                ),
+                title: Text(
                   'Payments Methods',
                   style: Theme.of(context).textTheme.bodyText2,
                 ),
                 onTap: () {
-                  // Navigator.of(context).pushReplacementNamed(PaymentMethodsScreen.routeName);
+                  // Navigator.of(context).pushNamed(PaymentMethodsScreen.routeName);
                 },
               ),
               Divider(color: Color(0xff6D5D54)),
@@ -76,8 +95,7 @@ class ProfileScreen extends StatelessWidget {
                   style: Theme.of(context).textTheme.bodyText2,
                 ),
                 onTap: () {
-                  // Navigator.of(context)
-                  //     .pushReplacementNamed(HistoryScreen.routeName);
+                  // Navigator.of(context).pushNamed(HistoryScreen.routeName);
                 },
               ),
               Divider(color: Color(0xff6D5D54)),
@@ -94,8 +112,7 @@ class ProfileScreen extends StatelessWidget {
                   style: Theme.of(context).textTheme.bodyText2,
                 ),
                 onTap: () {
-                  Navigator.of(context)
-                      .pushNamed(AboutScreen.routeName);
+                  Navigator.of(context).pushNamed(AboutScreen.routeName);
                 },
               ),
               Divider(color: Color(0xff6D5D54)),
@@ -112,8 +129,15 @@ class ProfileScreen extends StatelessWidget {
                   'Logout',
                   style: Theme.of(context).textTheme.bodyText2,
                 ),
-                onTap: () {
-                  Provider.of<Auth>(context, listen: false).logout();
+                onTap: () async {
+                  await Provider.of<Auth>(
+                    context,
+                    listen: false,
+                  ).logout();
+                  await Provider.of<MapsProvider>(
+                    context,
+                    listen: false,
+                  ).goOffline();
                 },
               ),
             ],
