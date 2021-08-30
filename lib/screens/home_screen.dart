@@ -62,7 +62,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     ? FutureBuilder(
                         future: maps.checkPermissions(),
                         builder: (ctx, snapshot) => maps.isPermissionsInit
-                            ? Center(child: CircularProgressIndicator())
+                            ? CircularProgressIndicator(
+                            color: Theme.of(context).accentColor,
+                              )
                             : GoogleMap(
                                 myLocationEnabled: true,
                                 padding: EdgeInsets.all(12),
