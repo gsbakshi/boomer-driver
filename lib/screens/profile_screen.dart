@@ -130,14 +130,14 @@ class ProfileScreen extends StatelessWidget {
                   style: Theme.of(context).textTheme.bodyText2,
                 ),
                 onTap: () async {
-                  await Provider.of<MapsProvider>(
-                    context,
-                    listen: false,
-                  ).goOffline();
                   await Provider.of<Auth>(
                     context,
                     listen: false,
                   ).logout();
+                  await Provider.of<MapsProvider>(
+                    context,
+                    listen: false,
+                  ).goOffline();
                 },
               ),
             ],
