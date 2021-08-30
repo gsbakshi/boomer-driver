@@ -1,8 +1,9 @@
-import 'package:boomer_driver/screens/earnings_screen.dart';
-import 'package:boomer_driver/screens/home_screen.dart';
-import 'package:boomer_driver/screens/profile_screen.dart';
-import 'package:boomer_driver/screens/ratings_screen.dart';
 import 'package:flutter/material.dart';
+
+import 'home_screen.dart';
+import 'profile_screen.dart';
+import 'ratings_screen.dart';
+import 'earnings_screen.dart';
 
 class NavigationBar extends StatefulWidget {
   const NavigationBar({Key? key}) : super(key: key);
