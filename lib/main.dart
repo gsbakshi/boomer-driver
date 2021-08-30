@@ -14,6 +14,7 @@ import 'screens/splash_screen.dart';
 import 'screens/navigation_bar.dart';
 import 'screens/profile_screen.dart';
 import 'screens/ratings_screen.dart';
+import 'screens/all_cars_screen.dart';
 import 'screens/earnings_screen.dart';
 import 'screens/car_info_screen.dart';
 
@@ -32,30 +33,37 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider.value(
           value: Auth(),
         ),
-        ChangeNotifierProxyProvider<Auth, MapsProvider>(
-          create: (_) => MapsProvider(),
-          update: (_, auth, mapsData) => mapsData!..update(auth),
-        ),
         ChangeNotifierProxyProvider<Auth, DriverProvider>(
           create: (_) => DriverProvider(),
           update: (_, auth, driverData) => driverData!..update(auth),
         ),
+        ChangeNotifierProxyProvider<DriverProvider, MapsProvider>(
+          create: (_) => MapsProvider(),
+          update: (_, driver, mapsData) => mapsData!..update(driver),
+        ),
       ],
       child: Consumer<Auth>(
-        builder: (ctx, auth, _) => MaterialApp(
-          title: 'Boomer Driver App',
-          debugShowCheckedModeBanner: false,
-          theme: themeData,
-          home: auth.isAuth
-              ? NavigationBar()
-              : FutureBuilder(
-                  future: auth.tryAutoLogin(),
-                  builder: (ctx, snapshot) =>
-                      snapshot.connectionState == ConnectionState.waiting
-                          ? SplashScreen()
-                          : AuthScreen(),
-                ),
-          routes: routes,
+        builder: (ctx, auth, _) => Consumer<DriverProvider>(
+          builder: (ctx, driver, _) => MaterialApp(
+            title: 'Boomer Driver App',
+            debugShowCheckedModeBanner: false,
+            theme: themeData,
+            home: auth.isAuth
+                ? FutureBuilder(
+                    future: driver.fetchDriverDetails(),
+                    builder: (ctx, snapshot) => driver.cars.isNotEmpty
+                        ? NavigationBar()
+                        : CarInfoScreen(),
+                  )
+                : FutureBuilder(
+                    future: auth.tryAutoLogin(),
+                    builder: (ctx, snapshot) =>
+                        snapshot.connectionState == ConnectionState.waiting
+                            ? SplashScreen()
+                            : AuthScreen(),
+                  ),
+            routes: routes,
+          ),
         ),
       ),
     );
@@ -72,6 +80,7 @@ class MyApp extends StatelessWidget {
       RatingsScreen.routeName: (ctx) => RatingsScreen(),
       ProfileScreen.routeName: (ctx) => ProfileScreen(),
       AboutScreen.routeName: (ctx) => AboutScreen(),
+      AllCarsScreen.routeName: (ctx) => AllCarsScreen(),
     };
   }
 }
