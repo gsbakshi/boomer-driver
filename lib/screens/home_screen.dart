@@ -1,11 +1,6 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
-import '../helpers/http_exception.dart';
 
 import '../providers/maps_provider.dart';
 import '../providers/driver_provider.dart';
@@ -21,14 +16,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  Completer<GoogleMapController> _controller = Completer();
-
-  GoogleMapController? newMapController;
-
-  bool _init = true;
-
-  Position? currentPosition;
-
   void _snackbar(String message) {
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
@@ -46,22 +33,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Future<void> locateOnMap() async {
-    try {
-      final mapProvider = Provider.of<MapsProvider>(context, listen: false);
-      await mapProvider.locatePosition(newMapController!);
-      currentPosition = mapProvider.currentPosition;
-    } on HttpException catch (error) {
-      var errorMessage = 'Request Failed';
-      print(error);
-      _snackbar(errorMessage);
-    } catch (error) {
-      const errorMessage = 'Could not locate you. Please try again later.';
-      print(error);
-      _snackbar(errorMessage);
-    }
-  }
-
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
     zoom: 14.4746,
@@ -74,7 +45,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void dispose() {
-    newMapController?.dispose();
     super.dispose();
   }
 
@@ -83,76 +53,70 @@ class _HomeScreenState extends State<HomeScreen> {
     var query = MediaQuery.of(context).size;
     return Scaffold(
       body: Consumer<DriverProvider>(
-        builder: (ctx, driver, _) => FutureBuilder(
-          future: driver.tryStatus(),
-          builder: (ctx, snapshot) => Stack(
-            children: [
-              driver.status
-                  ? GoogleMap(
-                      myLocationEnabled: true,
-                      padding: EdgeInsets.all(12),
-                      initialCameraPosition: _kGooglePlex,
-                      onMapCreated: (GoogleMapController controller) async {
-                        if (_init) {
-                          _controller.complete(controller);
-                        }
-                        newMapController = controller;
-                        await locateOnMap();
-                        await Provider.of<MapsProvider>(
-                          context,
-                          listen: false,
-                        ).goOnline();
-                        await Provider.of<MapsProvider>(
-                          context,
-                          listen: false,
-                        ).getLiveLocationUpdates(newMapController!);
-                        _snackbar('You are now Online');
-                      },
-                    )
-                  : Center(
-                      child: Icon(
-                        Icons.offline_bolt_rounded,
-                        size: query.width * 0.6,
-                        color: Theme.of(context).accentColor,
+        builder: (ctx, driver, _) => Consumer<MapsProvider>(
+          builder: (ctx, maps, _) => FutureBuilder(
+            future: driver.tryStatus(),
+            builder: (ctx, snapshot) => Stack(
+              children: [
+                driver.status
+                    ? FutureBuilder(
+                        future: maps.checkPermissions(),
+                        builder: (ctx, snapshot) => maps.isPermissionsInit
+                            ? Center(child: CircularProgressIndicator())
+                            : GoogleMap(
+                                myLocationEnabled: true,
+                                padding: EdgeInsets.all(12),
+                                initialCameraPosition: _kGooglePlex,
+                                onMapCreated:
+                                    (GoogleMapController controller) async {
+                                  try {
+                                    await maps.setMapController(controller);
+                                  } catch (error) {
+                                    const errorMessage =
+                                        'Could not locate you. Please try again later.';
+                                    print(error);
+                                    _snackbar(errorMessage +
+                                        '    ' +
+                                        error.toString());
+                                  }
+                                },
+                              ),
+                      )
+                    : Center(
+                        child: Icon(
+                          Icons.offline_bolt_rounded,
+                          size: query.width * 0.6,
+                          color: Theme.of(context).accentColor,
+                        ),
                       ),
-                    ),
-              Positioned(
-                top: 0,
-                child: FloatingAppBarWrapper(
-                  height: query.height * 0.072,
-                  width: query.width,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20),
-                      child: Text(
-                        driver.status ? 'Online Now' : 'Offline',
-                        style: Theme.of(context).textTheme.headline4,
+                Positioned(
+                  top: 0,
+                  child: FloatingAppBarWrapper(
+                    height: query.height * 0.072,
+                    width: query.width,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: Text(
+                          driver.status ? 'Online Now' : 'Offline',
+                          style: Theme.of(context).textTheme.headline4,
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: Switch.adaptive(
-                        value: driver.status,
-                        onChanged: (value) async {
-                          final check = _init;
-                          setState(() {
-                            if (check) _init = false;
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        child: Switch.adaptive(
+                          value: driver.status,
+                          onChanged: (value) async {
                             driver.changeWorkMode(value);
-                          });
-                          if (!value) {
-                            await Provider.of<MapsProvider>(
-                              context,
-                              listen: false,
-                            ).goOffline();
-                            _snackbar('You are now Offline');
-                          }
-                        },
+                            await maps.mapInit();
+                          },
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
